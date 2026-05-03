@@ -171,6 +171,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                 "http://localhost:5173",
                 "http://localhost:5174"
+            // "https://AIChat_ClientSide.vercel.app"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
@@ -184,8 +185,8 @@ builder.Services.AddAuthentication("Cookies")
     {
         options.Cookie.Name = "AIChatAuth";
         options.Cookie.HttpOnly = true;
-        options.Cookie.SameSite = SameSiteMode.Lax;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 
         options.Events.OnRedirectToLogin = context =>
         {
