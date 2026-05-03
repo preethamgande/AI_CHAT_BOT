@@ -9,7 +9,7 @@ import {
   deleteChat,
   getChatById,
   getChats,
-} from "./Services/chatHistoryService";
+} from "./Services/ChatHistoryService";
 
 export default function App() {
   const [user, setUser] = useState(null);
