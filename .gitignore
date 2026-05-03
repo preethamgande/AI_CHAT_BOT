@@ -8,6 +8,7 @@
 # Node / React
 node_modules/
 dist/
+build/
 .vite/
 
 # .NET
@@ -16,6 +17,9 @@ obj/
 .vs/
 *.user
 *.suo
+*.dll
+*.exe
+*.pdb
 
 # Logs
 *.log
