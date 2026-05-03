@@ -1,0 +1,184 @@
+/* ====================== DESIGN TOKENS ====================== */
+
+:root {
+  /* Base Colors */
+  --bg-primary: #0f172a; /* Deep slate */
+  --bg-secondary: #1e2937;
+  --bg-glass: rgba(15, 23, 42, 0.72);
+
+  /* Accents */
+  --accent: #6366f1; /* Indigo */
+  --accent-2: #a855f7; /* Violet */
+  --accent-gradient: linear-gradient(90deg, #6366f1, #a855f7);
+
+  /* Text */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+
+  /* Borders & Glass */
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --border: rgba(148, 163, 184, 0.15);
+
+  /* Shadows */
+  --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-md:
+    0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15);
+  --shadow-lg:
+    0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2);
+}
+
+/* ====================== BASE STYLES ====================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "Inter", system_ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+/* ====================== GLASSMORPHISM ====================== */
+
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+}
+
+/* ====================== BUTTONS ====================== */
+
+.btn-primary {
+  background: var(--accent-gradient);
+  color: white;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* ====================== UTILITIES ====================== */
+
+.rounded-3xl {
+  border-radius: 1.75rem;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Shimmer Effect (Already had this - improved) */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-150%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 40%;
+  height: 300%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  animation: shimmer 3s infinite linear;
+}
+
+/* ====================== CHAT SPECIFIC ====================== */
+
+.message-user {
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border-bottom-right-radius: 6px !important;
+}
+
+.message-ai {
+  background: var(--bg-glass);
+  border: 1px solid var(--glass-border);
+  border-bottom-left-radius: 6px !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
+/* ====================== RESPONSIVE ====================== */
+
+@media (max-width: 1024px) {
+  .glass {
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* Optional: Subtle background pattern */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(99, 102, 241, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 80%,
+      rgba(168, 85, 247, 0.08) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: -1;
+}

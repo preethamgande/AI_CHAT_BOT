@@ -1,0 +1,29 @@
+# Environment files
+.env
+.env.*
+!/.env.example
+!AIChat_ClientSide/.env.example
+!AIChat_ServerSide/.env.example
+
+# Node / React
+node_modules/
+dist/
+.vite/
+
+# .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
