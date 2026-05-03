@@ -2,7 +2,7 @@
 
 A full-stack AI-powered chat application that allows users to register, log in, and interact with an AI assistant in real-time. The application supports chat history persistence using MongoDB Atlas and streaming AI responses
 
-<img width="1000" height="500" alt="image" src="![alt text](image.png)" />
+<img width="1880" height="855" alt="image" src="https://github.com/user-attachments/assets/aa16f030-4c5f-4cdc-9585-79588b8d36ca" />
 
 ## 🚀 Features
 
