@@ -1,9 +1,8 @@
 # Environment files
 .env
 .env.*
-!/.env.example
-!AIChat_ClientSide/.env.example
-!AIChat_ServerSide/.env.example
+!.env.example
+!**/.env.example
 
 # Node / React
 node_modules/

@@ -14,7 +14,8 @@ export function streamChatMessage(chatId, message, onChunk, onDone, onError) {
       return;
     }
 
-    onChunk(event.data);
+    const chunk = event.data.replaceAll("\\n", "\n");
+onChunk(chunk);
   };
 
   eventSource.onerror = () => {

@@ -156,13 +156,25 @@ app.MapGet("/chat/stream", async (
 
     var aiResponse = "";
 
-    await foreach (var chunk in aiService.StreamResponse(message))
-    {
-        aiResponse += chunk;
+    // await foreach (var chunk in aiService.StreamResponse(message))
+    // {
+    //     aiResponse += chunk;
 
-        await ctx.Response.WriteAsync($"data: {chunk}\n\n");
-        await ctx.Response.Body.FlushAsync();
-    }
+    //     await ctx.Response.WriteAsync($"data: {chunk}\n\n");
+    //     await ctx.Response.Body.FlushAsync();
+    // }
+
+    await foreach (var chunk in aiService.StreamResponse(message))
+{
+    aiResponse += chunk;
+
+    var safeChunk = chunk
+        .Replace("\r", "")
+        .Replace("\n", "\\n");
+
+    await ctx.Response.WriteAsync($"data: {safeChunk}\n\n");
+    await ctx.Response.Body.FlushAsync();
+}
 
     var aiMessage = new ChatMessage
     {

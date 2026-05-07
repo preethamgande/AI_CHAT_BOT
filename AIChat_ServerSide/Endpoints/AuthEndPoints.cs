@@ -1,3 +1,4 @@
+using AIChat_ServerSide.Services;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
@@ -7,21 +8,10 @@ public static class AuthEndpoints
     {
         var group = app.MapGroup("/auth");
 
-        // group.MapPost("/register", (UserRegistrationRequest req, AuthService auth) =>
-        // {
-        //     if (string.IsNullOrWhiteSpace(req?.Username) ||
-        //         string.IsNullOrWhiteSpace(req?.Password))
-        //     {
-        //         return Results.BadRequest("Invalid input");
-        //     }
-
-        //     if (!auth.Register(req.Username, req.Password))
-        //         return Results.BadRequest("User already exists");
-
-        //     return Results.Ok();
-        // });
-
-        group.MapPost("/register", (UserRegistrationRequest req, AuthService auth) =>
+        group.MapPost("/register", async (
+            UserRegistrationRequest req,
+            AuthService auth
+        ) =>
         {
             if (string.IsNullOrWhiteSpace(req?.Username) ||
                 string.IsNullOrWhiteSpace(req?.Password))
@@ -29,20 +19,26 @@ public static class AuthEndpoints
                 return Results.BadRequest("Username and password are required.");
             }
 
-            // ✅ Add password length validation
-            if (req.Password.Length < 6)
-            {
-                return Results.BadRequest("Password must be at least 6 characters.");
-            }
+            var result = await auth.RegisterAsync(req.Username, req.Password);
 
-            if (!auth.Register(req.Username, req.Password))
-                return Results.BadRequest("User already exists");
+            if (!result.Success)
+            {
+                if (result.Error == "User already exists.")
+                {
+                    return Results.Conflict(result.Error);
+                }
+
+                return Results.BadRequest(result.Error);
+            }
 
             return Results.Ok("Registered successfully.");
         });
 
-
-        group.MapPost("/login", async (UserLoginRequest req, AuthService auth, HttpContext ctx) =>
+        group.MapPost("/login", async (
+            UserLoginRequest req,
+            AuthService auth,
+            HttpContext ctx
+        ) =>
         {
             if (string.IsNullOrWhiteSpace(req?.Username) ||
                 string.IsNullOrWhiteSpace(req?.Password))
@@ -50,26 +46,37 @@ public static class AuthEndpoints
                 return Results.BadRequest("Invalid input");
             }
 
-            if (!auth.Validate(req.Username, req.Password))
+            var isValid = await auth.ValidateAsync(req.Username, req.Password);
+
+            if (!isValid)
+            {
                 return Results.Unauthorized();
+            }
+
+            var username = req.Username.Trim();
 
             var claims = new List<Claim>
             {
-                new(ClaimTypes.Name, req.Username)
+                new(ClaimTypes.Name, username)
             };
 
             var identity = new ClaimsIdentity(claims, "Cookies");
+            var principal = new ClaimsPrincipal(identity);
 
-            await ctx.SignInAsync("Cookies", new ClaimsPrincipal(identity));
+            await ctx.SignInAsync("Cookies", principal);
 
-            return Results.Ok();
+            return Results.Ok(new
+            {
+                username
+            });
         });
 
-        // ✅ Check current logged-in user
         group.MapGet("/me", (HttpContext ctx) =>
         {
             if (ctx.User.Identity?.IsAuthenticated != true)
+            {
                 return Results.Unauthorized();
+            }
 
             return Results.Ok(new
             {
