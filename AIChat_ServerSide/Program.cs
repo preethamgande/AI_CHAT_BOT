@@ -40,7 +40,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                 "http://localhost:5173",
                 "http://localhost:5174",
-                "https://ai-chat-bot-delta-eight.vercel.app/",
+                "https://ai-chat-bot-delta-eight.vercel.app",
                 frontendUrl
             )
             .AllowAnyHeader()
