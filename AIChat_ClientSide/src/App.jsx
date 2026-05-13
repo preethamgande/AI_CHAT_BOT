@@ -3,6 +3,7 @@ import AuthForm from "./Components/AuthForm";
 import ChatBox from "./Components/ChatBox";
 import Navbar from "./Components/Navbar";
 import Sidebar from "./Components/Sidebar";
+import username from "./Components/Sidebar";
 import { getCurrentUser } from "./Services/authService";
 import {
   createChat,
@@ -191,11 +192,12 @@ return (
       onDeleteChat={handleDeleteChat}
       isOpen={isSidebarOpen}
       onClose={() => setIsSidebarOpen(false)}
+      username={user}
     />
 
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
       <Navbar
-        username={user}
+        
         onLogout={handleLogout}
         onMenuClick={() => setIsSidebarOpen(true)}
       />
@@ -229,47 +231,5 @@ return (
     </div>
   </div>
 );
-  // return (
-  //   <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-blue-100 p-2">
-  //     <Sidebar
-  //       chats={chats}
-  //       activeChatId={activeChatId}
-  //       onNewChat={handleNewChat}
-  //       onSelectChat={handleSelectChat}
-  //       onDeleteChat={handleDeleteChat}
-  //     />
 
-  //     <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-  //       <Navbar username={user} onLogout={handleLogout} />
-
-  //       {activeChatId ? (
-  //         <ChatBox
-  //           activeChatId={activeChatId}
-  //           messages={activeMessages}
-  //           setMessagesForChat={setMessagesForChat}
-  //           refreshChats={loadChats}
-  //         />
-  //       ) : (
-  //         <div className="flex flex-1 items-center justify-center px-4">
-  //           <div className="max-w-sm rounded-[2.5rem] bg-white/60 p-12 text-center backdrop-blur-sm border border-white shadow-sm">
-  //             <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-900 text-2xl text-white">
-  //               👋
-  //             </div>
-
-  //             <h2 className="text-2xl font-bold text-slate-900">
-  //               Ready to chat?
-  //             </h2>
-
-  //             <p className="mt-3 text-sm leading-relaxed text-slate-500">
-  //               Select an existing conversation from the sidebar or click
-  //               <span className="font-bold text-slate-700"> “New Chat” </span>
-  //               to start fresh.
-  //             </p>
-  //           </div>
-  //         </div>
-  //       )}
-  //     </div>
-  //   </div>
-  // );
 }
-
