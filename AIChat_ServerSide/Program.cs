@@ -32,20 +32,29 @@ var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL")
                   ?? builder.Configuration["FrontendUrl"]
                   ?? "http://localhost:5173";
 
-// CORS
+frontendUrl = frontendUrl.Trim().TrimEnd('/');
+
+Console.WriteLine($"FRONTEND_URL: {frontendUrl}");
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("frontend", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:5173",
-                "http://localhost:5174",
-                "https://ai-chat-bot-delta-eight.vercel.app"
-                
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+        var allowedOrigins = new[]
+        {
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "https://ai-chat-bot-delta-eight.vercel.app",
+            frontendUrl
+        }
+        .Where(x => !string.IsNullOrWhiteSpace(x))
+        .Distinct()
+        .ToArray();
+
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
